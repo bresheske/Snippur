@@ -50,7 +50,7 @@ namespace WindowsImgur.Core.Services
                 var response = new StreamReader(req.GetResponse().GetResponseStream()).ReadToEnd();
                 return new JavaScriptSerializer().Deserialize<UploadResponse>(response).data.link;
             }
-            catch (WebException ex)
+            catch (WebException)
             {
                 return null;
             }

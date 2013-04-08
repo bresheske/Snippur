@@ -37,17 +37,17 @@ namespace WindowsImgur.Console
 
             if (setkey)
             {
-                if (!new RegistryKeyService().SetImgurKey())
+                if (!new KeyService().SetImgurKey())
                 {
-                    System.Console.WriteLine("Editing the keys requires administrative permissions.  Try a runas command. ");
+                    System.Console.WriteLine("Editing the keys requires administrative permissions.  Execute CMD as an Administrator.");
                 }
             }
 
             if (deletekey)
             {
-                if (!new RegistryKeyService().DeleteImgurKey())
+                if (!new KeyService().DeleteImgurKey())
                 {
-                    System.Console.WriteLine("Editing the keys requires administrative permissions.  Try a runas command. ");
+                    System.Console.WriteLine("Editing the keys requires administrative permissions.  Execute CMD as an Administrator.");
                 }
             }
         }

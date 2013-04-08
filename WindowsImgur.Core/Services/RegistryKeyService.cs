@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using GlobalHotKey;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace WindowsImgur.Core.Services
 {
-    public class RegistryKeyService
+    public class KeyService
     {
 
         public bool SetImgurKey()
@@ -17,12 +18,21 @@ namespace WindowsImgur.Core.Services
             if (!IsUserAdministrator())
                 return false;
 
+            /* Registry */
             var root = Registry.LocalMachine;
             var shell = root.OpenSubKey(@"Software\Classes\Paint.Picture\shell", true);
+            SetCommandKeys(shell);
+            shell = root.OpenSubKey(@"Software\Classes\pngfile\shell", true);
+            SetCommandKeys(shell);
+
+            return true;
+        }
+
+        private void SetCommandKeys(RegistryKey shell)
+        {
             var sendkey = shell.CreateSubKey("Upload to Imgur");
             var command = sendkey.CreateSubKey("command");
             command.SetValue("", string.Format("{0} -f \"%1\"", Environment.GetCommandLineArgs()[0]));
-            return true;
         }
 
         public bool DeleteImgurKey()
@@ -31,6 +41,10 @@ namespace WindowsImgur.Core.Services
                 return false;
 
             var shell= Registry.LocalMachine.OpenSubKey(@"Software\Classes\Paint.Picture\shell", true);
+            shell.DeleteSubKey(@"Upload to Imgur\command");
+            shell.DeleteSubKey("Upload to Imgur");
+
+            shell = Registry.LocalMachine.OpenSubKey(@"Software\Classes\pngfile\shell", true);
             shell.DeleteSubKey(@"Upload to Imgur\command");
             shell.DeleteSubKey("Upload to Imgur");
             return true;
@@ -47,11 +61,11 @@ namespace WindowsImgur.Core.Services
                 WindowsPrincipal principal = new WindowsPrincipal(user);
                 isAdmin = principal.IsInRole(WindowsBuiltInRole.Administrator);
             }
-            catch (UnauthorizedAccessException ex)
+            catch (UnauthorizedAccessException)
             {
                 isAdmin = false;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 isAdmin = false;
             }
