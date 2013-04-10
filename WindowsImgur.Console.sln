@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsImgur.Console", "Win
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsImgur.Core", "WindowsImgur.Core\WindowsImgur.Core.csproj", "{C4D37902-D5EA-4E47-8988-1E5CAFE55513}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsImgur.SnippingTool", "WindowsImgur.SnippingTool\WindowsImgur.SnippingTool.csproj", "{A00DE111-0C8D-44FB-A9EB-2E3E037485B7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{C4D37902-D5EA-4E47-8988-1E5CAFE55513}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C4D37902-D5EA-4E47-8988-1E5CAFE55513}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C4D37902-D5EA-4E47-8988-1E5CAFE55513}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A00DE111-0C8D-44FB-A9EB-2E3E037485B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A00DE111-0C8D-44FB-A9EB-2E3E037485B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A00DE111-0C8D-44FB-A9EB-2E3E037485B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A00DE111-0C8D-44FB-A9EB-2E3E037485B7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

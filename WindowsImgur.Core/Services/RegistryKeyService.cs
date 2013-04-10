@@ -52,11 +52,9 @@ namespace WindowsImgur.Core.Services
 
         public bool IsUserAdministrator()
         {
-            //bool value to hold our return value
             bool isAdmin;
             try
             {
-                //get the currently logged in user
                 WindowsIdentity user = WindowsIdentity.GetCurrent();
                 WindowsPrincipal principal = new WindowsPrincipal(user);
                 isAdmin = principal.IsInRole(WindowsBuiltInRole.Administrator);

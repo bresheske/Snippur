@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ScreenCaptureService.cs" />
     <Compile Include="Services\ImgurObjects\UploadData.cs" />
     <Compile Include="Services\ImgurObjects\UploadResponse.cs" />
     <Compile Include="Services\ImgurService.cs" />

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -24,13 +25,12 @@ namespace WindowsImgur.Core.Services
             _appsecret = appSecret;
         }
 
-        public string UploadImageAnonymously(string file)
+        public string UploadImageAnonymously(Bitmap image)
         {
-            var image = (Bitmap)(Image.FromFile(file));
             byte[] bytes;
             using (var ms = new MemoryStream())
             {
-                image.Save(ms, image.RawFormat);
+                image.Save(ms, ImageFormat.Png);
                 bytes = ms.ToArray();
             }
 
@@ -54,9 +54,14 @@ namespace WindowsImgur.Core.Services
             {
                 return null;
             }
-            
+
         }
 
+        public string UploadImageAnonymously(string file)
+        {
+            var image = (Bitmap)(Image.FromFile(file));
+            return UploadImageAnonymously(image);
+        }
 
     }
 }
