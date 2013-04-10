@@ -25,22 +25,24 @@ namespace WindowsImgur.SnippingTool
     /// </summary>
     public partial class MainWindow : Window
     {
-		System.Windows.Point lefttoppoint;
-        System.Windows.Point rightbottompoint;
+		System.Drawing.Point startpos;
+        System.Drawing.Point endpos;
 		bool isdrawing;
 		
         public MainWindow()
         {
             InitializeComponent();
-            Canvas.AddHandler(UIElement.MouseLeftButtonUpEvent, new MouseButtonEventHandler(Canvas_MouseUp));
-            Canvas.AddHandler(UIElement.MouseLeftButtonDownEvent, new MouseButtonEventHandler(Canvas_MouseDown));
-            Canvas.AddHandler(UIElement.MouseMoveEvent, new MouseEventHandler(Canvas_MouseMove));
+            Canvas.AddHandler(Mouse.PreviewMouseUpEvent, new MouseButtonEventHandler(Canvas_MouseUp));
+            Canvas.AddHandler(Mouse.PreviewMouseDownEvent, new MouseButtonEventHandler(Canvas_MouseDown));
+            Canvas.AddHandler(Mouse.MouseMoveEvent, new MouseEventHandler(Canvas_MouseMove));
         }
 
         private void Canvas_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             isdrawing = true;
-            lefttoppoint = new System.Windows.Point((int)e.GetPosition((Canvas)sender).X, (int)e.GetPosition((Canvas)sender).Y);
+            startpos = new System.Drawing.Point((int)e.GetPosition((Canvas)sender).X, 
+                (int)e.GetPosition((Canvas)sender).Y);
+            Canvas.CaptureMouse();
         }
 
         private void Canvas_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -48,12 +50,22 @@ namespace WindowsImgur.SnippingTool
             isdrawing = false;
             this.Hide();
             var image = new ScreenCaptureService().CaptureScreen();
-            var cropped = new Bitmap((int)rightbottompoint.X - (int)lefttoppoint.X, (int)rightbottompoint.Y - (int)lefttoppoint.Y, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            
+
+
+            var cropped = new Bitmap(Math.Abs((int)startpos.X - (int)endpos.X),
+                Math.Abs((int)startpos.Y - (int)endpos.Y), 
+                System.Drawing.Imaging.PixelFormat.Format32bppArgb);
             
             using (Graphics g = Graphics.FromImage(cropped))
             {
                 g.DrawImage(image, new System.Drawing.Rectangle(0, 0, cropped.Width, cropped.Height),
-                                 new System.Drawing.Rectangle((int)lefttoppoint.X, (int)lefttoppoint.Y, (int)rightbottompoint.X - (int)lefttoppoint.X, (int)rightbottompoint.Y - (int)lefttoppoint.Y),
+                                 new System.Drawing.Rectangle(
+                                       Math.Min(startpos.X, endpos.X),
+                                       Math.Min(startpos.Y, endpos.Y),
+                                       Math.Abs(startpos.X - endpos.X),
+                                       Math.Abs(startpos.Y - endpos.Y)
+                                    ),
                                  GraphicsUnit.Pixel);
             }
 
@@ -63,6 +75,7 @@ namespace WindowsImgur.SnippingTool
                 System.Diagnostics.Process.Start(link);
             else
                 MessageBox.Show("An error with imgur has occured.");
+            Canvas.ReleaseMouseCapture();
             this.Close();
         }
 
@@ -70,20 +83,26 @@ namespace WindowsImgur.SnippingTool
         {
             if (isdrawing)
             {
-                rightbottompoint = new System.Windows.Point(e.GetPosition((Canvas)sender).X, e.GetPosition((Canvas)sender).Y);
+                endpos = new System.Drawing.Point((int)e.GetPosition((Canvas)sender).X, (int)e.GetPosition((Canvas)sender).Y);
+                var drawingrect = new System.Drawing.Rectangle(
+                                       Math.Min(startpos.X, endpos.X),
+                                       Math.Min(startpos.Y, endpos.Y),
+                                       Math.Abs(startpos.X - endpos.X),
+                                       Math.Abs(startpos.Y - endpos.Y)
+                                    );
                 Canvas.Children.Clear();
                 var rect = new System.Windows.Shapes.Rectangle()
                 {
                     Stroke = System.Windows.Media.Brushes.Aqua,
                     Margin = new Thickness(
-                        lefttoppoint.X,
-                        lefttoppoint.Y,
+                        drawingrect.X,
+                        drawingrect.Y,
                         0,
                         0
                         ),
                     StrokeThickness = 1,
-                    Width = Math.Abs(rightbottompoint.X - lefttoppoint.X),
-                    Height = Math.Abs(rightbottompoint.Y - lefttoppoint.Y)
+                    Width = Math.Abs(drawingrect.Width),
+                    Height = Math.Abs(drawingrect.Height)
                 };
                 Canvas.Children.Add(rect);
             }
