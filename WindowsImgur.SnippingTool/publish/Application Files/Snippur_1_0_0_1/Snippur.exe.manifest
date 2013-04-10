@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
+  <asmv1:assemblyIdentity name="Snippur.exe" version="1.0.0.1" publicKeyToken="32a9132c19298281" language="neutral" processorArchitecture="msil" type="win32" />
+  <description asmv2:iconFile="imgur.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
+  <application />
+  <entryPoint>
+    <assemblyIdentity name="Snippur" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+    <commandLine file="Snippur.exe" parameters="" />
+  </entryPoint>
+  <trustInfo>
+    <security>
+      <applicationRequestMinimum>
+        <PermissionSet Unrestricted="true" ID="Custom" SameSite="site" />
+        <defaultAssemblyRequest permissionSetReference="Custom" />
+      </applicationRequestMinimum>
+      <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">
+        <!--
+          UAC Manifest Options
+          If you want to change the Windows User Account Control level replace the 
+          requestedExecutionLevel node with one of the following.
+
+        <requestedExecutionLevel  level="asInvoker" uiAccess="false" />
+        <requestedExecutionLevel  level="requireAdministrator" uiAccess="false" />
+        <requestedExecutionLevel  level="highestAvailable" uiAccess="false" />
+
+         If you want to utilize File and Registry Virtualization for backward 
+         compatibility then delete the requestedExecutionLevel node.
+    -->
+        <requestedExecutionLevel level="asInvoker" uiAccess="false" />
+      </requestedPrivileges>
+    </security>
+  </trustInfo>
+  <dependency>
+    <dependentOS>
+      <osVersionInfo>
+        <os majorVersion="5" minorVersion="1" buildNumber="2600" servicePackMajor="0" />
+      </osVersionInfo>
+    </dependentOS>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="preRequisite" allowDelayedBinding="true">
+      <assemblyIdentity name="Microsoft.Windows.CommonLanguageRuntime" version="4.0.30319.0" />
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Snippur.exe" size="92672">
+      <assemblyIdentity name="Snippur" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>nRHDg93P0V5rCN56CXxWYIH+Fw6N+oqIWk1TuArGc/M=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="WindowsImgur.Core.dll" size="10240">
+      <assemblyIdentity name="WindowsImgur.Core" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>J4j7rX9kNtfAB5P3eeCBH+nwQ8e2FvzZ4R7bO0QIoi8=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <file name="imgur.ico" size="38175">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>857adoUjySqbQh5nEtYt9w+SzoxtDeWs2JxYUn753dk=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Snippur.exe.config" size="1209">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>1WFUC1C2JPhQwqRtqQQOKzzAtpv2sMEZXQ1EBfLzDWE=</dsig:DigestValue>
+    </hash>
+  </file>
+<publisherIdentity name="CN=ME-LAP\brandon" issuerKeyHash="5731f5992e59bbbcbcfb6bfd380409cfb99291dc" /><Signature Id="StrongNameSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>Yhmmvg1w5duWuQA0xFSdlRRp7CwE70G6kT7LBHLpDbs=</DigestValue></Reference></SignedInfo><SignatureValue>EHij7K02s5tFBPrpmKofqK/NU6HlEzKhGrECoAQK6fnDHxVZEjcFOpv6PSkZTRSh1uWS1vJqAITcjJFvPEW7Jkwdr1ispIdA8SQYN6IhmRwN8tjlIgv4kn/TNFmeh9/Kq9tNywfCbXUT6WFrlLIuaa0dzLZsUQPlIWHs90GQrm8=</SignatureValue><KeyInfo Id="StrongNameKeyInfo"><KeyValue><RSAKeyValue><Modulus>oc3CsEx9vTVcau+wzofO4c9TA+GEwHrqJ8ZOOF/Lt7VLu5UY58Oqw3znYIin4JVwBMV6tIjiaeCyzfM3ZHExKcbJINKw+ej5Ibu0UbNvqs36ngnOdExnryOOX3H7QWXFXJYs1w+k+eI+hR5nWfPnkBXwGoQ5uNpWTkDh5Pqxnr0=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><msrel:RelData xmlns:msrel="http://schemas.microsoft.com/windows/rel/2005/reldata"><r:license xmlns:r="urn:mpeg:mpeg21:2003:01-REL-R-NS" xmlns:as="http://schemas.microsoft.com/windows/pki/2005/Authenticode"><r:grant><as:ManifestInformation Hash="bb0de97204cb3e91ba41ef042cec6914959d54c43400b996dbe5700dbea61962" Description="" Url=""><as:assemblyIdentity name="Snippur.exe" version="1.0.0.1" publicKeyToken="32a9132c19298281" language="neutral" processorArchitecture="msil" type="win32" /></as:ManifestInformation><as:SignedBy /><as:AuthenticodePublisher><as:X509SubjectName>CN=ME-LAP\brandon</as:X509SubjectName></as:AuthenticodePublisher></r:grant><r:issuer><Signature Id="AuthenticodeSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>Or5G9hgV9r8UsHZqUp8hezFDwWAp8Jo7iordBU8QZDg=</DigestValue></Reference></SignedInfo><SignatureValue>SACkX3RbhfR3/YzGNw9Pe/6WqIC6BqCoIV00Dyfw/GX3Z39MKFFuTLy7evyHPZNED5nUa3dm/CiXxEhch1M2izKF8Z6fpX7bKDYNkUCjiecZuJ92F2auNblzjE9/i5oSm/5k2tnA1IjApS/fYL8fTeDYnngFDKSUyoRbFcmHAbs=</SignatureValue><KeyInfo><KeyValue><RSAKeyValue><Modulus>oc3CsEx9vTVcau+wzofO4c9TA+GEwHrqJ8ZOOF/Lt7VLu5UY58Oqw3znYIin4JVwBMV6tIjiaeCyzfM3ZHExKcbJINKw+ej5Ibu0UbNvqs36ngnOdExnryOOX3H7QWXFXJYs1w+k+eI+hR5nWfPnkBXwGoQ5uNpWTkDh5Pqxnr0=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><X509Data><X509Certificate>MIIB0TCCATqgAwIBAgIQWHDQXhphMpJFGEZDmKWM0zANBgkqhkiG9w0BAQsFADAnMSUwIwYDVQQDHhwATQBFAC0ATABBAFAAXABiAHIAYQBuAGQAbwBuMB4XDTEzMDQxMDAxMjMxMVoXDTE0MDQxMDA3MjMxMVowJzElMCMGA1UEAx4cAE0ARQAtAEwAQQBQAFwAYgByAGEAbgBkAG8AbjCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEAoc3CsEx9vTVcau+wzofO4c9TA+GEwHrqJ8ZOOF/Lt7VLu5UY58Oqw3znYIin4JVwBMV6tIjiaeCyzfM3ZHExKcbJINKw+ej5Ibu0UbNvqs36ngnOdExnryOOX3H7QWXFXJYs1w+k+eI+hR5nWfPnkBXwGoQ5uNpWTkDh5Pqxnr0CAwEAATANBgkqhkiG9w0BAQsFAAOBgQAj0dtIf304usJP06kux3NNIYCtGyUmbS3ilwBou1m357z8bW0j1A8chYdjMq37e3Ukt+DV4TNKFnXBIbfNcCigsNNn4qjEQr6JRNvPSxIxXunJ5ecpUJuATMFpHhTxI7kr3m/0QvCLHIuB1SMPHXnS7Gykmk7o+NZZ/OV2Qr3hGw==</X509Certificate></X509Data></KeyInfo></Signature></r:issuer></r:license></msrel:RelData></KeyInfo></Signature></asmv1:assembly>
