@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
+using WindowsImgur.Core.Services;
 
 namespace WindowsImgur.SnippingTool
 {
@@ -10,6 +11,14 @@ namespace WindowsImgur.SnippingTool
     {
         private void ApplicationStartup(object sender, StartupEventArgs e)
         {
+            /* Load config to see if we have all entries we need first. */
+            var keys = ImgurSettingsService.Load();
+            if (string.IsNullOrEmpty(keys.ClientId))
+            {
+                new MissingKeyForm().Show();
+                return;
+            }
+            
             var list = new List<MainWindow>();
 
             /* Find out how many windows we need to open. */

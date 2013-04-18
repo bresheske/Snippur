@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Configuration;
 using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
@@ -62,8 +61,8 @@ namespace WindowsImgur.SnippingTool
                                     ),
                                  GraphicsUnit.Pixel);
             }
-
-            var link = new ImgurService(ConfigurationManager.AppSettings["Client-ID"], ConfigurationManager.AppSettings["Client-Secret"])
+            var keys = ImgurSettingsService.Load();
+            var link = new ImgurService(keys.ClientId)
                     .UploadImageAnonymously(cropped);
             if (link != null)
                 System.Diagnostics.Process.Start(link);

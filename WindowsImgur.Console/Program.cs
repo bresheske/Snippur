@@ -27,7 +27,7 @@ namespace WindowsImgur.Console
 
             if (!string.IsNullOrEmpty(file))
             {
-                var link = new ImgurService(ConfigurationManager.AppSettings["Client-ID"], ConfigurationManager.AppSettings["Client-Secret"])
+                var link = new ImgurService(ImgurSettingsService.Load().ClientId)
                     .UploadImageAnonymously(file);
                 if (link != null)
                     System.Diagnostics.Process.Start(link);

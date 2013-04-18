@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
 using System.Web.Script.Serialization;
 using WindowsImgur.Core.Services.ImgurObjects;
@@ -17,12 +12,10 @@ namespace WindowsImgur.Core.Services
     public class ImgurService
     {
         private readonly string _appclient;
-        private readonly string _appsecret;
 
-        public ImgurService(string appClient, string appSecret)
+        public ImgurService(string appClient)
         {
             _appclient = appClient;
-            _appsecret = appSecret;
         }
 
         public string UploadImageAnonymously(Bitmap image)
