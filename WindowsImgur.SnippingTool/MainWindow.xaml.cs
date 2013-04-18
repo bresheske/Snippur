@@ -1,20 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Drawing;
-using System.Drawing.Imaging;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using WindowsImgur.Core;
 using WindowsImgur.Core.Services;
 
@@ -25,6 +14,9 @@ namespace WindowsImgur.SnippingTool
     /// </summary>
     public partial class MainWindow : Window
     {
+        public System.Windows.Forms.Screen Screen;
+        public event EventHandler OnWindowCapture;
+
 		System.Drawing.Point startpos;
         System.Drawing.Point endpos;
 		bool isdrawing;
@@ -48,16 +40,18 @@ namespace WindowsImgur.SnippingTool
         private void Canvas_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             isdrawing = false;
-            this.Hide();
-            var image = new ScreenCaptureService().CaptureScreen();
-            
 
+            this.Hide();
+            if (OnWindowCapture != null)
+                OnWindowCapture(this, null);
+
+            var image = new ScreenCaptureService().CaptureScreen(Screen);
 
             var cropped = new Bitmap(Math.Abs((int)startpos.X - (int)endpos.X),
                 Math.Abs((int)startpos.Y - (int)endpos.Y), 
                 System.Drawing.Imaging.PixelFormat.Format32bppArgb);
             
-            using (Graphics g = Graphics.FromImage(cropped))
+            using (var g = Graphics.FromImage(cropped))
             {
                 g.DrawImage(image, new System.Drawing.Rectangle(0, 0, cropped.Width, cropped.Height),
                                  new System.Drawing.Rectangle(
@@ -76,7 +70,6 @@ namespace WindowsImgur.SnippingTool
             else
                 MessageBox.Show("An error with imgur has occured.");
             Canvas.ReleaseMouseCapture();
-            this.Close();
         }
 
         private void Canvas_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
@@ -93,7 +86,7 @@ namespace WindowsImgur.SnippingTool
                 Canvas.Children.Clear();
                 var rect = new System.Windows.Shapes.Rectangle()
                 {
-                    Stroke = System.Windows.Media.Brushes.Aqua,
+                    Fill = System.Windows.Media.Brushes.DarkGray,
                     Margin = new Thickness(
                         drawingrect.X,
                         drawingrect.Y,
@@ -107,6 +100,5 @@ namespace WindowsImgur.SnippingTool
                 Canvas.Children.Add(rect);
             }
         }
-
     }
 }
