@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace WindowsImgur.Core
+namespace Snippur.Core.Services
 {
     public class ScreenCaptureService
     {

@@ -2,7 +2,7 @@
 using System;
 using System.Security.Principal;
 
-namespace WindowsImgur.Core.Services
+namespace Snippur.Core.Services
 {
     public class KeyService
     {

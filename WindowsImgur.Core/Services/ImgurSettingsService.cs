@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Web.Script.Serialization;
 
-namespace WindowsImgur.Core.Services
+namespace Snippur.Core.Services
 {
     public class ImgurSettingsService
     {

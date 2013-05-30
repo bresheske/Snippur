@@ -1,13 +1,7 @@
 ﻿using NDesk.Options;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WindowsImgur.Core.Services;
+using Snippur.Core.Services;
 
-namespace WindowsImgur.Console
+namespace Snippur.Console
 {
     public class Program
     {

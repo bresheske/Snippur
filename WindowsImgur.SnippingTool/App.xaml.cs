@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
-using WindowsImgur.Core.Services;
+using Snippur.Core.Services;
 
-namespace WindowsImgur.SnippingTool
+namespace Snippur.SnippingTool
 {
     /// <summary>
     /// Interaction logic for App.xaml

@@ -5,9 +5,9 @@ using System.IO;
 using System.Net;
 using System.Web;
 using System.Web.Script.Serialization;
-using WindowsImgur.Core.Services.ImgurObjects;
+using Snippur.Core.Services.ImgurObjects;
 
-namespace WindowsImgur.Core.Services
+namespace Snippur.Core.Services
 {
     public class ImgurService
     {

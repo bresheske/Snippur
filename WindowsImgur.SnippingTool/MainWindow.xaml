@@ -1,4 +1,4 @@
-﻿<Window x:Class="WindowsImgur.SnippingTool.MainWindow"
+﻿<Window x:Class="Snippur.SnippingTool.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" ResizeMode="NoResize" WindowStyle="None" Background="{x:Null}" Opacity="1" AllowsTransparency="True" ShowInTaskbar="False" >

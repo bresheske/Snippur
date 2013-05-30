@@ -1,4 +1,4 @@
-﻿<Window x:Class="WindowsImgur.SnippingTool.MissingKeyForm"
+﻿<Window x:Class="Snippur.SnippingTool.MissingKeyForm"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Imgur Settings" Height="405" Width="329" Background="#FF1F1F1F" WindowStyle="ToolWindow" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Icon="imgur.ico">

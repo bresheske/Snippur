@@ -3,10 +3,9 @@ using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using WindowsImgur.Core;
-using WindowsImgur.Core.Services;
+using Snippur.Core.Services;
 
-namespace WindowsImgur.SnippingTool
+namespace Snippur.SnippingTool
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
