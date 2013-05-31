@@ -15,9 +15,10 @@ namespace Snippur.SnippingTool
         public System.Windows.Forms.Screen Screen;
         public event EventHandler OnWindowCapture;
 
-		System.Drawing.Point startpos;
-        System.Drawing.Point endpos;
-		bool isdrawing;
+        private System.Drawing.Point _startpos;
+        private System.Drawing.Point _endpos;
+        private bool _isdrawing;
+        private Bitmap _croppedimage;
 		
         public MainWindow()
         {
@@ -29,57 +30,37 @@ namespace Snippur.SnippingTool
 
         private void Canvas_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            isdrawing = true;
-            startpos = new System.Drawing.Point((int)e.GetPosition((Canvas)sender).X, 
+            _isdrawing = true;
+            _startpos = new System.Drawing.Point((int)e.GetPosition((Canvas)sender).X, 
                 (int)e.GetPosition((Canvas)sender).Y);
             Canvas.CaptureMouse();
         }
 
         private void Canvas_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            isdrawing = false;
+            _isdrawing = false;
 
-            this.Hide();
-            if (OnWindowCapture != null)
-                OnWindowCapture(this, null);
+            //this.Hide();
+            //if (OnWindowCapture != null)
+            //    OnWindowCapture(this, null);
 
-            var image = new ScreenCaptureService().CaptureScreen(Screen);
-
-            var cropped = new Bitmap(Math.Abs((int)startpos.X - (int)endpos.X),
-                Math.Abs((int)startpos.Y - (int)endpos.Y), 
-                System.Drawing.Imaging.PixelFormat.Format32bppArgb);
             
-            using (var g = Graphics.FromImage(cropped))
-            {
-                g.DrawImage(image, new System.Drawing.Rectangle(0, 0, cropped.Width, cropped.Height),
-                                 new System.Drawing.Rectangle(
-                                       Math.Min(startpos.X, endpos.X),
-                                       Math.Min(startpos.Y, endpos.Y),
-                                       Math.Abs(startpos.X - endpos.X),
-                                       Math.Abs(startpos.Y - endpos.Y)
-                                    ),
-                                 GraphicsUnit.Pixel);
-            }
-            var keys = ImgurSettingsService.Load();
-            var link = new ImgurService(keys.ClientId)
-                    .UploadImageAnonymously(cropped);
-            if (link != null)
-                System.Diagnostics.Process.Start(link);
-            else
-                MessageBox.Show("An error with imgur has occured.");
+            
+
+            VisualStateManager.GoToState(this, "Menu", true);
             Canvas.ReleaseMouseCapture();
         }
 
         private void Canvas_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            if (isdrawing)
+            if (_isdrawing)
             {
-                endpos = new System.Drawing.Point((int)e.GetPosition((Canvas)sender).X, (int)e.GetPosition((Canvas)sender).Y);
+                _endpos = new System.Drawing.Point((int)e.GetPosition((Canvas)sender).X, (int)e.GetPosition((Canvas)sender).Y);
                 var drawingrect = new System.Drawing.Rectangle(
-                                       Math.Min(startpos.X, endpos.X),
-                                       Math.Min(startpos.Y, endpos.Y),
-                                       Math.Abs(startpos.X - endpos.X),
-                                       Math.Abs(startpos.Y - endpos.Y)
+                                       Math.Min(_startpos.X, _endpos.X),
+                                       Math.Min(_startpos.Y, _endpos.Y),
+                                       Math.Abs(_startpos.X - _endpos.X),
+                                       Math.Abs(_startpos.Y - _endpos.Y)
                                     );
                 Canvas.Children.Clear();
                 var rect = new System.Windows.Shapes.Rectangle()
@@ -97,6 +78,38 @@ namespace Snippur.SnippingTool
                 };
                 Canvas.Children.Add(rect);
             }
+        }
+
+        private Bitmap GetScreenCrop()
+        {
+            var image = new ScreenCaptureService().CaptureScreen(Screen);
+            var cropped = new Bitmap(Math.Abs(_startpos.X - _endpos.X),
+                Math.Abs(_startpos.Y - _endpos.Y),
+                System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+            using (var g = Graphics.FromImage(cropped))
+            {
+                g.DrawImage(image, new System.Drawing.Rectangle(0, 0, cropped.Width, cropped.Height),
+                                 new System.Drawing.Rectangle(
+                                       Math.Min(_startpos.X, _endpos.X),
+                                       Math.Min(_startpos.Y, _endpos.Y),
+                                       Math.Abs(_startpos.X - _endpos.X),
+                                       Math.Abs(_startpos.Y - _endpos.Y)
+                                    ),
+                                 GraphicsUnit.Pixel);
+            }
+            return cropped;
+        }
+
+        private void UploadToImgur(Bitmap b)
+        {
+            var keys = ImgurSettingsService.Load();
+            var link = new ImgurService(keys.ClientId)
+                    .UploadImageAnonymously(b);
+            if (link != null)
+                System.Diagnostics.Process.Start(link);
+            else
+                MessageBox.Show("An error with imgur has occured.");
         }
     }
 }
