@@ -2,8 +2,11 @@
 using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Forms;
 using System.Windows.Input;
 using Snippur.Core.Services;
+using MessageBox = System.Windows.MessageBox;
+using MouseEventHandler = System.Windows.Input.MouseEventHandler;
 
 namespace Snippur.SnippingTool
 {
@@ -31,6 +34,7 @@ namespace Snippur.SnippingTool
         private void Canvas_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             _isdrawing = true;
+            VisualStateManager.GoToElementState(LayoutRoot, "Base", true);
             _startpos = new System.Drawing.Point((int)e.GetPosition((Canvas)sender).X, 
                 (int)e.GetPosition((Canvas)sender).Y);
             Canvas.CaptureMouse();
@@ -39,7 +43,7 @@ namespace Snippur.SnippingTool
         private void Canvas_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             _isdrawing = false;
-            VisualStateManager.GoToState(this, "Menu", true);
+            VisualStateManager.GoToElementState(LayoutRoot, "Menu", true);
             Canvas.ReleaseMouseCapture();
         }
 
@@ -112,6 +116,28 @@ namespace Snippur.SnippingTool
 
             var b = GetScreenCrop();
             UploadToImgur(b);
+        }
+
+        private void SaveToFileClick(object sender, MouseButtonEventArgs e)
+        {
+            this.Hide();
+            if (OnWindowCapture != null)
+                OnWindowCapture(this, null);
+
+            var b = GetScreenCrop();
+
+            var dialog = new SaveFileDialog {Filter = "PNG Images | *.png"};
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                b.Save(dialog.FileName);
+            }
+        }
+
+        private void CloseClick(object sender, MouseButtonEventArgs e)
+        {
+            this.Hide();
+            if (OnWindowCapture != null)
+                OnWindowCapture(this, null);
         }
     }
 }
