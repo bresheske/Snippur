@@ -39,14 +39,6 @@ namespace Snippur.SnippingTool
         private void Canvas_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             _isdrawing = false;
-
-            //this.Hide();
-            //if (OnWindowCapture != null)
-            //    OnWindowCapture(this, null);
-
-            
-            
-
             VisualStateManager.GoToState(this, "Menu", true);
             Canvas.ReleaseMouseCapture();
         }
@@ -110,6 +102,16 @@ namespace Snippur.SnippingTool
                 System.Diagnostics.Process.Start(link);
             else
                 MessageBox.Show("An error with imgur has occured.");
+        }
+
+        private void UploadToImgurClick(object sender, MouseButtonEventArgs e)
+        {
+            this.Hide();
+            if (OnWindowCapture != null)
+                OnWindowCapture(this, null);
+
+            var b = GetScreenCrop();
+            UploadToImgur(b);
         }
     }
 }
