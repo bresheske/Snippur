@@ -25,14 +25,14 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>http://www.thetinyappshoppe.com/downloads/snippur/</InstallUrl>
-    <SupportUrl>http://resheske.net/snippur</SupportUrl>
-    <ErrorReportUrl>http://resheske.net/snippur</ErrorReportUrl>
+    <SupportUrl>http://www.thetinyappshoppe.com/snippur</SupportUrl>
+    <ErrorReportUrl>http://www.thetinyappshoppe.com/snippur</ErrorReportUrl>
     <ProductName>Snippur</ProductName>
-    <PublisherName>bresheske</PublisherName>
+    <PublisherName>The Tiny App Shoppe</PublisherName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
     <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.0</ApplicationVersion>
+    <ApplicationVersion>1.1.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -57,10 +57,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>A45441476E5F0DF9D5F8D48D0069396B40A74031</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>25F974C1E9B3211DE5A0A0194A24802AE0A93DD9</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>SigningKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>ttas.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -75,7 +75,13 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>SigningKey.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>ttas.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -144,6 +150,7 @@
     <Content Include="imgur.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -151,6 +158,7 @@
     <AppDesigner Include="Properties\" />
     <None Include="SigningKey.pfx" />
     <None Include="snippuriconvector.psd" />
+    <None Include="ttas.pfx" />
     <None Include="WindowsImgur.SnippingTool_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
