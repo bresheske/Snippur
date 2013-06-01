@@ -25,14 +25,14 @@
     <UpdatePeriodically>true</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>http://www.thetinyappshoppe.com/downloads/snippur/</InstallUrl>
+    <InstallUrl>https://www.thetinyappshoppe.com/downloads/snippur/</InstallUrl>
     <SupportUrl>http://www.thetinyappshoppe.com/snippur</SupportUrl>
     <ErrorReportUrl>http://www.thetinyappshoppe.com/snippur</ErrorReportUrl>
     <ProductName>Snippur</ProductName>
     <PublisherName>The Tiny App Shoppe</PublisherName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationRevision>10</ApplicationRevision>
     <ApplicationVersion>2.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -58,10 +58,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>25F974C1E9B3211DE5A0A0194A24802AE0A93DD9</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>628F1AF5760FE30ACE41B4C0DA2503A48AC122F8</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>ttas.pfx</ManifestKeyFile>
+    <ManifestKeyFile>
+    </ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -76,7 +77,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>ttas.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>SnippurSN.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
@@ -85,15 +86,21 @@
     <TargetZone>LocalIntranet</TargetZone>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Expression.Effects" />
-    <Reference Include="Microsoft.Expression.Interactions" />
+    <Reference Include="Microsoft.Expression.Effects">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.Expression.Interactions">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Windows.Interactivity" />
+    <Reference Include="System.Windows.Interactivity">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -145,6 +152,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="SnippurSN.snk" />
     <Resource Include="icon-save.png" />
     <Resource Include="icon-upload.png" />
     <Resource Include="icon-x.png" />
@@ -163,10 +171,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <None Include="SigningKey.pfx" />
     <None Include="snippuriconvector.psd" />
-    <None Include="ttas.pfx" />
-    <None Include="WindowsImgur.SnippingTool_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -175,6 +180,7 @@
     <ProjectReference Include="..\WindowsImgur.Core\Snippur.Core.csproj">
       <Project>{c4d37902-d5ea-4e47-8988-1e5cafe55513}</Project>
       <Name>Snippur.Core</Name>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -201,6 +207,10 @@
     <Resource Include="imgur.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

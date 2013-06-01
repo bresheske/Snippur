@@ -21,7 +21,6 @@ namespace Snippur.SnippingTool
         private System.Drawing.Point _startpos;
         private System.Drawing.Point _endpos;
         private bool _isdrawing;
-        private Bitmap _croppedimage;
 		
         public MainWindow()
         {
@@ -116,6 +115,7 @@ namespace Snippur.SnippingTool
 
             var b = GetScreenCrop();
             UploadToImgur(b);
+            Close();
         }
 
         private void SaveToFileClick(object sender, MouseButtonEventArgs e)
@@ -131,6 +131,7 @@ namespace Snippur.SnippingTool
             {
                 b.Save(dialog.FileName);
             }
+            Close();
         }
 
         private void CloseClick(object sender, MouseButtonEventArgs e)
@@ -138,6 +139,7 @@ namespace Snippur.SnippingTool
             this.Hide();
             if (OnWindowCapture != null)
                 OnWindowCapture(this, null);
+            Close();
         }
     }
 }
