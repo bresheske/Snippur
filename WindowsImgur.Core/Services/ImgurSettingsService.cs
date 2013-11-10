@@ -3,6 +3,9 @@ using System.Web.Script.Serialization;
 
 namespace Snippur.Core.Services
 {
+    /// <summary>
+    /// In charge of keeping some settings stored on the client computer.
+    /// </summary>
     public class ImgurSettingsService
     {
         public const string FILE = "imgur.config";

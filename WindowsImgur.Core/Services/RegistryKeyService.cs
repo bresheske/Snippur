@@ -4,6 +4,9 @@ using System.Security.Principal;
 
 namespace Snippur.Core.Services
 {
+    /// <summary>
+    /// No longer used.
+    /// </summary>
     public class KeyService
     {
 
@@ -12,7 +15,6 @@ namespace Snippur.Core.Services
             if (!IsUserAdministrator())
                 return false;
 
-            /* Registry */
             var root = Registry.LocalMachine;
             var shell = root.OpenSubKey(@"Software\Classes\Paint.Picture\shell", true);
             SetCommandKeys(shell);

@@ -2,6 +2,9 @@
 
 namespace Snippur.Core.Services
 {
+    /// <summary>
+    /// Captures the image from the provided screen.
+    /// </summary>
     public class ScreenCaptureService
     {
         public Image CaptureScreen(System.Windows.Forms.Screen screen)

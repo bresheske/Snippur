@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Snippur.Core.Services;
+using System.Collections.Generic;
 using System.Windows;
-using Snippur.Core.Services;
 
 namespace Snippur.SnippingTool
 {
@@ -11,7 +11,7 @@ namespace Snippur.SnippingTool
     {
         private void ApplicationStartup(object sender, StartupEventArgs e)
         {
-            /* Load config to see if we have all entries we need first. */
+            // Load config to see if we have all entries we need first.
             var keys = ImgurSettingsService.Load();
             if (string.IsNullOrEmpty(keys.ClientId))
             {
@@ -21,7 +21,7 @@ namespace Snippur.SnippingTool
             
             var list = new List<MainWindow>();
 
-            /* Find out how many windows we need to open. */
+            // Find out how many windows we need to open.
             foreach (var s in System.Windows.Forms.Screen.AllScreens)
             {
                 var win = new MainWindow()

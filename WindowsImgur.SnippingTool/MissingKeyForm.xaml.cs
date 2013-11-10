@@ -1,8 +1,8 @@
-﻿using System.Diagnostics;
+﻿using Snippur.Core.Services;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Snippur.Core.Services;
 
 namespace Snippur.SnippingTool
 {
