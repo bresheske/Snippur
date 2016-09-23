@@ -13,7 +13,7 @@ namespace Snippur.Core.Services
         /// Returns a boolean specifying if there is an active internet connection 
         /// </summary>
         /// <returns></returns>
-        public bool HasActiveConnection()
+        public static bool HasActiveConnection()
         {
             try
             {
