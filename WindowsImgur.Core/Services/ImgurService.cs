@@ -36,7 +36,7 @@ namespace Snippur.Core.Services
         public string UploadImageAnonymously(Bitmap image)
         {
             //Check if there is an active internet connection
-            if (!Helper.HasActiveConnection())
+            if (!NetworkHelper.HasActiveConnection())
                 return null;
                 
             byte[] bytes;
