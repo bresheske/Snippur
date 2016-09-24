@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Snippur.Core.Services
 {
-    public class Helper
+    public static class NetworkHelper
     {
 
         /// <summary>
