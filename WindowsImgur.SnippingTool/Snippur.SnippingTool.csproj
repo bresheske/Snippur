@@ -38,6 +38,9 @@
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
+  <PropertyGroup>
+    <TargetPlatformVersion>8.0</TargetPlatformVersion>
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
@@ -70,7 +73,8 @@
     <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>snippuriconpng.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
@@ -155,11 +159,16 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Resource Include="icon-save.png" />
-    <Resource Include="icon-upload.png" />
-    <Resource Include="icon-x.png" />
-    <Resource Include="snippuriconpng.ico" />
-    <Resource Include="snippuriconpng.png" />
+    <Resource Include="Resources\icon_edit_clip_active.png" />
+    <Resource Include="Resources\icon_clipregion_diabled.png" />
+    <Resource Include="Resources\icon_clip_region_active.png" />
+    <Resource Include="Resources\icon_edit_clip_diabled.png" />
+    <Resource Include="Resources\icon_hide_docker.png" />
+    <Resource Include="Resources\icon_save_clip_active.png" />
+    <Resource Include="Resources\icon_save_clip_diabled.png" />
+    <Resource Include="Resources\icon_screenshot.png" />
+    <Resource Include="Resources\icon_settings.png" />
+    <Resource Include="Resources\icon_uploadtoimgur.png" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -202,12 +211,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Resource Include="imgur.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="imgur.ico" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
