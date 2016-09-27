@@ -41,6 +41,7 @@ namespace Snippur.SnippingTool
 
                 win.Show();
                 list.Add(win);
+                list[0].Focus();
             }
 
         }
