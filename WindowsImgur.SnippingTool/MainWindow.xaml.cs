@@ -298,15 +298,11 @@ namespace Snippur.SnippingTool
 			var b = GetScreenCrop();
 
 			var dialog = new SaveFileDialog {Filter = "PNG Images | *.png"};
-			if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-			{
-				b.Save(dialog.FileName);
-                Close();
-            }
-            else
-            {
+			if (dialog.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+                return;
 
-            }
+			b.Save(dialog.FileName);
+            Close();
         }
 
 
