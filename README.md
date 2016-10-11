@@ -1,8 +1,7 @@
-Snippur
-=======
+# Snippur
 
 C# screen-capturing tool with Imgur support.
 
-<h3>Authors</h3>
- - @brpeanut
- - @king-kay
+## Authors
+ - [@brpeanut](https://github.com/brpeanut)
+ - [@king-kay](https://github.com/king-kay)
