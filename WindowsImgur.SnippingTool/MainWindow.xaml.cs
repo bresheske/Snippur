@@ -1,16 +1,18 @@
-﻿using Snippur.Core.Services;
-using System;
+﻿using System;
 using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Input;
-using MessageBox = System.Windows.MessageBox;
-using MouseEventHandler = System.Windows.Input.MouseEventHandler;
 using System.Windows.Media.Imaging;
 using System.IO;
 using System.Drawing.Imaging;
+using Snippur.Core.Services;
+
+using Point = System.Drawing.Point;
+using MessageBox = System.Windows.MessageBox;
+using MouseEventHandler = System.Windows.Input.MouseEventHandler;
 
 namespace Snippur.SnippingTool
 {
@@ -19,51 +21,90 @@ namespace Snippur.SnippingTool
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-		public System.Windows.Forms.Screen Screen;
+        #region Variables
+
+        /// <summary>
+        /// The primary screen of the clients PC
+        /// </summary>
+        public Screen Screen;
+
+        /// <summary>
+        /// 
+        /// </summary>
 		public event EventHandler OnWindowCapture;
 
-		private System.Drawing.Point _startpos;
-		private System.Drawing.Point _endpos;
-		private bool IsDrawing;
+        /// <summary>
+        /// Indicates the start position of a snipp region
+        /// </summary>
+		private Point DrawStartPosition;
 
-        private bool _isdoneclipping;
-        private bool IsDoneClipping
+        /// <summary>
+        /// Indicates the end position of a snipp region
+        /// </summary>
+		private Point DrawEndPosition;
+
+        /// <summary>
+        /// Specifies the least possible width of a snipp region
+        /// </summary>
+        private const int MinClipWidth = 30;
+
+        /// <summary>
+        /// Specifies the least possible height of a snipp region
+        /// </summary>
+        private const int MinClipHeight = 30;
+
+        /// <summary>
+        /// A boolean which indicates that the user is still snipping 
+        /// </summary>
+		private bool IsSnipping;
+
+        /// <summary>
+        /// A boolean which indicates that the user is done snipping
+        /// </summary>
+        private bool _IsDoneSnipping;
+
+        /// <summary>
+        /// Property wrapper for <see cref="_IsDoneSnipping"/> with some custom logic
+        /// </summary>
+        private bool IsDoneDrawing
         {
-            get
-            {
-                return _isdoneclipping;
-            }
+            get { return _IsDoneSnipping; }
 
             set
             {
                 if (value)
                 {
-                    //Draw the image that was snipped so that usser may preview it or edit it if he wants to
+                    //Draw the image that was just snipped so that user may preview it or edit it
                     var drawingrect = (System.Windows.Shapes.Rectangle)DrawingCanvas.Children[0];
                     var rect = new System.Windows.Shapes.Rectangle()
                     {
                         Margin = drawingrect.Margin,
                         StrokeThickness = 0,
-                        Width = Math.Abs(drawingrect.Width),
-                        Height = Math.Abs(drawingrect.Height)
+                        Width = drawingrect.Width,
+                        Height = drawingrect.Height
                     };
-                    rect.Fill = new ImageBrush(ConvertToBitmapImage(GetScreenCrop()));
+                    rect.Fill = new ImageBrush(ConvertToBitmapImage(GetScreenSnipp()));
                     DrawingCanvas.Children.Clear();
                     DrawingCanvas.Children.Add(rect);
                 }
                 else
                     DrawingCanvas.Opacity = 0.6;
-                _isdoneclipping = value;
+
+                _IsDoneSnipping = value;
             }
         }
 
-        private bool _isallowedtoclip;
-        public bool IsAllowedToClip
+        /// <summary>
+        /// A boolean which indictaes whether or not the user is allowed to snipp a region of the screen
+        /// </summary>
+        private bool _IsAllowedToSnipp;
+
+        /// <summary>
+        /// Property wrapper for <see cref="_IsAllowedToSnipp"/> with some custom logic
+        /// </summary>
+        public bool IsAllowedToSnipp
         {
-            get
-            {
-                return _isallowedtoclip;
-            }
+            get { return _IsAllowedToSnipp; }
             set
             {
                 if (value)
@@ -71,17 +112,15 @@ namespace Snippur.SnippingTool
                     DrawingCanvas.Visibility = Visibility.Visible;
                 else
                 {
-                    //Hide the canvas so that the user cannot clip screen
+                    //Hide the canvas so that the user cannot clip screen and reset the drawing surface
                     DrawingCanvas.Visibility = Visibility.Hidden;
-                    //Reset drawing surafce
                     DrawingCanvas.Children.Clear();
                 }
-                _isallowedtoclip = value;
+                _IsAllowedToSnipp = value;
             }
         }
 
-        private const int MinClipWidth = 30;
-        private const int MinClipHeight = 30;
+        #endregion
 
         public MainWindow()
 		{
@@ -91,61 +130,46 @@ namespace Snippur.SnippingTool
 			DrawingCanvas.AddHandler(Mouse.MouseMoveEvent, new MouseEventHandler(Canvas_MouseMove));
 
             //Start with the docker expanded
-            IsAllowedToClip = false;
-            IsDoneClipping = false;
+            IsAllowedToSnipp = false;
+            IsDoneDrawing = false;
 			VisualStateManager.GoToElementState(LayoutRoot, "Menu", true);
 		}
 
 
         /// <summary>
-        /// 
+        /// Handles events for when the mouse buttons have been presssed
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
 		private void Canvas_MouseDown(object sender, MouseButtonEventArgs e)
-		{
-            if (!IsAllowedToClip)
-                return;
-            IsDoneClipping = false;
-			IsDrawing = true;
-			VisualStateManager.GoToElementState(LayoutRoot, "Base", true);
-			_startpos = new System.Drawing.Point((int)e.GetPosition((Canvas)sender).X, 
-				(int)e.GetPosition((Canvas)sender).Y);
-			DrawingCanvas.CaptureMouse();
-		}
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Canvas_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            if (!IsAllowedToClip)
+            if (!IsAllowedToSnipp)
                 return;
-            IsDrawing = false;
-            VisualStateManager.GoToElementState(LayoutRoot, "Menu", true);
-            CheckDrawValidity();
-            DrawingCanvas.ReleaseMouseCapture();
+
+            IsDoneDrawing = false;
+            IsSnipping = true;
+            VisualStateManager.GoToElementState(LayoutRoot, "Base", true);
+            DrawStartPosition = new System.Drawing.Point((int)e.GetPosition((Canvas)sender).X, (int)e.GetPosition((Canvas)sender).Y);
+            DrawingCanvas.CaptureMouse();
         }
 
-        
+
+ 
         /// <summary>
-        /// 
+        /// Handles events for when the mouse is being moved
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-		private void Canvas_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        private void Canvas_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
 		{
-			if (IsDrawing)
+			if (IsSnipping)
 			{
-				_endpos = new System.Drawing.Point((int)e.GetPosition((Canvas)sender).X, (int)e.GetPosition((Canvas)sender).Y);
+				DrawEndPosition = new System.Drawing.Point((int)e.GetPosition((Canvas)sender).X, (int)e.GetPosition((Canvas)sender).Y);
 				var drawingrect = new Rectangle(
-									   Math.Min(_startpos.X, _endpos.X),
-									   Math.Min(_startpos.Y, _endpos.Y),
-									   Math.Abs(_startpos.X - _endpos.X),
-									   Math.Abs(_startpos.Y - _endpos.Y)
+									   Math.Min(DrawStartPosition.X, DrawEndPosition.X),
+									   Math.Min(DrawStartPosition.Y, DrawEndPosition.Y),
+									   Math.Abs(DrawStartPosition.X - DrawEndPosition.X),
+									   Math.Abs(DrawStartPosition.Y - DrawEndPosition.Y)
 									);
 				DrawingCanvas.Children.Clear();
                 var rect = new System.Windows.Shapes.Rectangle()
@@ -168,24 +192,52 @@ namespace Snippur.SnippingTool
 
 
         /// <summary>
-        /// Clips a region of a screen
+        /// Handles events for when the mouse buttons have been released
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Canvas_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (!IsAllowedToSnipp)
+                return;
+
+            if (IsValidDraw())
+            {
+                VisualStateManager.GoToElementState(LayoutRoot, "Menu", true);
+                IsSnipping = false;
+                IsDoneDrawing = true;
+            }
+            else
+            {
+                MessageBox.Show("The region you have snipped is too small :(");
+                IsSnipping = false;
+            }
+
+            //Always release mouse caputure 
+            DrawingCanvas.ReleaseMouseCapture();
+
+        }
+
+
+        /// <summary>
+        /// Returns a <see cref="Bitmap"/> of the 
         /// </summary>
         /// <returns></returns>
-        private Bitmap GetScreenCrop()
+        private Bitmap GetScreenSnipp()
 		{
             var image = new ScreenCaptureService().CaptureScreen(Screen);
-			var cropped = new Bitmap(Math.Abs(_startpos.X - _endpos.X),
-				Math.Abs(_startpos.Y - _endpos.Y),
+			var cropped = new Bitmap(Math.Abs(DrawStartPosition.X - DrawEndPosition.X),
+				Math.Abs(DrawStartPosition.Y - DrawEndPosition.Y),
 				System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
 			using (var g = Graphics.FromImage(cropped))
 			{
 				g.DrawImage(image, new Rectangle(0, 0, cropped.Width, cropped.Height),
 								 new Rectangle(
-									   Math.Min(_startpos.X, _endpos.X),
-									   Math.Min(_startpos.Y, _endpos.Y),
-									   Math.Abs(_startpos.X - _endpos.X),
-									   Math.Abs(_startpos.Y - _endpos.Y)
+									   Math.Min(DrawStartPosition.X, DrawEndPosition.X),
+									   Math.Min(DrawStartPosition.Y, DrawEndPosition.Y),
+									   Math.Abs(DrawStartPosition.X - DrawEndPosition.X),
+									   Math.Abs(DrawStartPosition.Y - DrawEndPosition.Y)
 									),
 								 GraphicsUnit.Pixel);
 			}
@@ -194,22 +246,21 @@ namespace Snippur.SnippingTool
 
 
         /// <summary>
-        /// Ensures that the user actually clipped a region whose height and width are bigger than the values specified by
+        /// Checks that the user actually clipped a region whose height and width are bigger than the values specified by
         ///  <see cref="MinClipWidth"/> and <see cref="MinClipHeight"/>
         /// </summary>
-        private void CheckDrawValidity()
+        private bool IsValidDraw()
         {
-            if (Math.Abs(_startpos.X - _endpos.X) > MinClipWidth && Math.Abs(_startpos.Y - _endpos.Y) > MinClipHeight)
+            if (Math.Abs(DrawStartPosition.X - DrawEndPosition.X) > MinClipWidth && Math.Abs(DrawStartPosition.Y - DrawEndPosition.Y) > MinClipHeight)
             {
-                IsDoneClipping = true;
-                return;
+                return true;
             }
-            IsDoneClipping = false;
+            return false;
         }
 
 
         /// <summary>
-        /// 
+        /// Converts a <see cref="Bitmap"/> to a <see cref="BitmapImage"/>
         /// </summary>
         /// <param name="bitmap"></param>
         /// <returns></returns>
@@ -229,34 +280,37 @@ namespace Snippur.SnippingTool
             return bitmapImage;
         }
         
+
         /// <summary>
-        /// 
+        /// Uploads and image to imgur
         /// </summary>
-        /// <param name="b"></param>
-		private void UploadToImgur(Bitmap b)
+        /// <param name="bitmap">The image to upload</param>
+		private void UploadToImgur(Bitmap bitmap)
 		{
 			var keys = ImgurSettingsService.Load();
 			var link = new ImgurService(keys.ClientId)
-					.UploadImageAnonymously(b);
+					.UploadImageAnonymously(bitmap);
 			if (link != null)
 				System.Diagnostics.Process.Start(link);
 			else
-				MessageBox.Show("An error with imgur has occured.");
+				MessageBox.Show("An error occured while uploading to imgur!. Please Check your internet connection and try again.");
 		}
 
+        #region Button-Click Handlers
+
         /// <summary>
-        /// 
+        /// Toggles snipping on and off 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ToggleScreenSnipping(object sender,RoutedEventArgs e)
+        private void ToggleScreenSnippingClick(object sender,RoutedEventArgs e)
         {
-            IsAllowedToClip = IsAllowedToClip == true ? false : true;
+            IsAllowedToSnipp = IsAllowedToSnipp == true ? false : true;
         }
 
 
         /// <summary>
-        /// 
+        /// Takes a full screenshot 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -274,7 +328,7 @@ namespace Snippur.SnippingTool
 
 
         /// <summary>
-        /// 
+        /// Uploads an image to imgur
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -284,18 +338,18 @@ namespace Snippur.SnippingTool
 			if (OnWindowCapture != null)
 				OnWindowCapture(this, null);
 
-			var b = GetScreenCrop();
+			var b = GetScreenSnipp();
 			UploadToImgur(b);
 		}
 
         /// <summary>
-        /// 
+        /// Saves a snipp to the clients PC
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
 		private void SaveToFileClick(object sender, RoutedEventArgs e)
 		{
-			var b = GetScreenCrop();
+			var b = GetScreenSnipp();
 
 			var dialog = new SaveFileDialog {Filter = "PNG Images | *.png"};
 			if (dialog.ShowDialog() != System.Windows.Forms.DialogResult.OK)
@@ -307,7 +361,7 @@ namespace Snippur.SnippingTool
 
 
         /// <summary>
-        /// 
+        /// Closes snippur 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -318,5 +372,7 @@ namespace Snippur.SnippingTool
 				OnWindowCapture(this, null);
 			Close();
 		}
+
+        #endregion
     }
 }
