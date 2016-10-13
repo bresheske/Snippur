@@ -92,6 +92,11 @@
                 </Button>
                 <Separator Style="{DynamicResource VerticalSeparatorStyle}"></Separator>
 
+                <Button Style="{DynamicResource DockerButton}" Click="UploadToImgurClick">
+                    <Image Source="Resources/icon_uploadtoimgur.png" Style="{DynamicResource DockerButtonImage}" />
+                </Button>
+                <Separator Style="{DynamicResource VerticalSeparatorStyle}"></Separator>
+
                 <Button Style="{DynamicResource DockerButton}" Click="CloseClick">
                     <Image Source="Resources/icon_hide_docker.png" Style="{DynamicResource DockerButtonImage}" />
                 </Button>
