@@ -1,26 +1,24 @@
-﻿<Window
+<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" xmlns:ee="http://schemas.microsoft.com/expression/2010/effects" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="Snippur.SnippingTool.MainWindow"
         Title="MainWindow" ResizeMode="NoResize" WindowStyle="None" Background="{x:Null}" Opacity="1" AllowsTransparency="True" ShowInTaskbar="False" Topmost="True" >
     <Window.Resources>
 
-        <!--#endregion-->
-
-        <!--#region Application styles-->
+        <!--#region Styles-->
         <Style x:Key="DockerButton" TargetType="{x:Type Button}">
             <Setter Property="FlowDirection" Value="LeftToRight"/>
             <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="BorderBrush" Value="Transparent"></Setter>
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Padding" Value="3,0"></Setter>
+            <Setter Property="Padding" Value="0"></Setter>
         </Style>
 
         <Style x:Key="DockerButtonImage" TargetType="{x:Type Image}">
-            <Setter Property="FlowDirection" Value="LeftToRight"/>
-            <Setter Property="Stretch" Value="Uniform"/>
-            <Setter Property="Height" Value="50"/>
-            <Setter Property="Width" Value="40"/>
+            <Setter Property="Stretch" Value="Fill"/>
+            <Setter Property="Height" Value="45"/>
+            <Setter Property="Width" Value="45"/>
         </Style>
 
         <Style x:Key="VerticalSeparatorStyle" 
@@ -42,6 +40,8 @@
 
     </Window.Resources>
     <Grid x:Name="LayoutRoot">
+
+        <!--#endregion-->
 
         <!--#region Viual states and Animatiion-->
         <VisualStateManager.VisualStateGroups>
@@ -71,33 +71,37 @@
         <Canvas x:Name="DrawingCanvas" Background="#1C1A1A" Opacity="0.7"/>
         <Border Background="#2B2B2B" x:Name="grid" HorizontalAlignment="Center" VerticalAlignment="Top" Panel.ZIndex="1" Margin="0,-60,0,0"  MaxHeight="60" MaxWidth="500">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                
-                <Button Style="{DynamicResource DockerButton}" Click="ToggleScreenSnipping">
+
+                <Button Style="{DynamicResource DockerButton}" Click="ToggleScreenSnippingClick" ToolTip="Snipp Screen">
                     <Image Source="Resources/icon_clip_region_active.png" Style="{DynamicResource DockerButtonImage}"/>
                 </Button>
+
                 <Separator Style="{DynamicResource VerticalSeparatorStyle}"></Separator>
-                
-                <Button Style="{DynamicResource DockerButton}" Click="TakeScreenshotClick">
+
+                <Button Style="{DynamicResource DockerButton}" Click="TakeScreenshotClick" ToolTip="Take Screenshot">
                     <Image Source="Resources/icon_screenshot.png" Style="{DynamicResource DockerButtonImage}"/>
                 </Button>
                 <Separator Style="{DynamicResource VerticalSeparatorStyle}"></Separator>
 
-                <Button Style="{DynamicResource DockerButton}">
+                <Button Style="{DynamicResource DockerButton}" ToolTip="Edit Snipp">
                     <Image  x:Name="EditImage" Source="Resources/icon_edit_clip_active.png" Style="{DynamicResource DockerButtonImage}" />
                 </Button>
+
                 <Separator Style="{DynamicResource VerticalSeparatorStyle}"></Separator>
 
-                <Button Style="{DynamicResource DockerButton}" Click="SaveToFileClick">
+                <Button Style="{DynamicResource DockerButton}" Click="SaveToFileClick" ToolTip="Save Snipp">
                     <Image x:Name="SaveImage" Source="Resources/icon_save_clip_active.png" Style="{DynamicResource DockerButtonImage}"/>
                 </Button>
+
                 <Separator Style="{DynamicResource VerticalSeparatorStyle}"></Separator>
 
-                <Button Style="{DynamicResource DockerButton}" Click="UploadToImgurClick">
+                <Button Style="{DynamicResource DockerButton}" Click="UploadToImgurClick" ToolTip="Upload to Imgur">
                     <Image Source="Resources/icon_uploadtoimgur.png" Style="{DynamicResource DockerButtonImage}" />
                 </Button>
+
                 <Separator Style="{DynamicResource VerticalSeparatorStyle}"></Separator>
 
-                <Button Style="{DynamicResource DockerButton}" Click="CloseClick">
+                <Button Style="{DynamicResource DockerButton}" Click="CloseClick" ToolTip="Hide">
                     <Image Source="Resources/icon_hide_docker.png" Style="{DynamicResource DockerButtonImage}" />
                 </Button>
             </StackPanel>
